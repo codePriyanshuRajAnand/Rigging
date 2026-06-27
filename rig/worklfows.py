@@ -1,9 +1,9 @@
-from crews import ( 
+from .crews import ( 
     code_review_crew,
     dependency_crew, 
     dock_crew,
     writer_crew)
-from router import COMMAND_MAP
+from .router import COMMAND_MAP
 
 def workflows(command, repo_path, review_context=None):
     decision = COMMAND_MAP.get(command) 

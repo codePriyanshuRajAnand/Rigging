@@ -1,6 +1,6 @@
 from crewai import Crew, Process
-from agents import *
-from tasks import *
+from .agents import *
+from .tasks import *
 
 
 code_review_crew = Crew(

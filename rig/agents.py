@@ -1,6 +1,6 @@
 from crewai import Agent
-from tools import *
-from llm import *
+from .tools import *
+from .llm import *
 
 
 # Define specialized agents for codebase review, dependency management, and containerization

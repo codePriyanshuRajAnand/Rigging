@@ -1,0 +1,13 @@
+[project]
+name = "rig"
+version = "0.1.0"
+description = "Agentic CLI tool for codebase analysis"
+requires-python = ">=3.9"
+
+dependencies = [
+    "crewai",
+    "typer"
+]
+
+[project.scripts]
+rig = "rig.cli:app"

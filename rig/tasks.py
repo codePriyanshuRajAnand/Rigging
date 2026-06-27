@@ -1,6 +1,6 @@
 from crewai import Task
-from tools import *
-from agents import *
+from .tools import *
+from .agents import *
 
 # define code base reviewer task
 
