@@ -36,7 +36,7 @@ router_task = Task(
     - required inputs
     - missing information (if any)
 """,
-    agent=None
+    agent=input_manager
 )
 
 
@@ -77,7 +77,9 @@ Structured report:
 - Missing Files
 - Risk Assessment
 """,
-    agent=None
+    agent=senior_engineering_reviewer,
+    tools=[directory_search_tool, directory_read_tool, file_read_tool]
+
 )
 
 # define dependency manifest generator task
@@ -110,7 +112,8 @@ dependency_manifest_generator_task = Task(
     - Version notes
     - Warnings or conflicts
 """,
-    agent=None
+    agent=dependency_manifest_generator,
+    tools=[directory_search_tool, directory_read_tool, file_read_tool]
 )
 
 containerization_engineer_task = Task(
@@ -140,7 +143,8 @@ containerization_engineer_task = Task(
     - Build instructions
     - Runtime notes
 """,
-    agent=None
+    agent=containerization_engineer,
+    tools=[directory_search_tool, directory_read_tool, file_read_tool, file_writer]
 )
 
 end_to_end_orchestrator_task = Task(
@@ -165,7 +169,7 @@ This is a sequential pipeline.
 - Docker Files
 - Final Readiness Summary
 """,
-    agent=None
+    agent=end_to_end_orchestrator
 )
 
 
@@ -199,5 +203,5 @@ A clean structured markdown report:
 - Issues
 - Recommendations
 """,
-    agent=None
+    agent=technical_writer
 )
