@@ -1,5 +1,6 @@
 from crewai import Agent
 from tools import *
+from llm import *
 
 
 # Define specialized agents for codebase review, dependency management, and containerization
@@ -26,6 +27,7 @@ name="Senior Engineering Reviewer",
     ]
     verbose=True,
     memory=True,
+    llm=review_llm,
     backstory=(
         "You are a seasoned software architect and security engineer with extensive experience reviewing production-grade systems across multiple programming languages and technology stacks. You have spent years identifying architectural flaws, security vulnerabilities, maintainability issues, and hidden defects before they impact production environments. Your expertise spans software design, secure coding, dependency management, and code quality analysis. Every review you perform is systematic, objective, and focused on ensuring the codebase is secure, scalable, maintainable, and production-ready."
     ),
@@ -49,6 +51,7 @@ name="Dependency & Manifest Generator",
     ],
     verbose=True,
     memory=True,
+    llm=dependency_llm,
     backstory=(
         "You are an experienced software engineer with deep knowledge of multiple programming languages, frameworks, and package management systems. You have a proven track record of analyzing complex codebases to identify dependencies and generate accurate manifest files. Your expertise includes understanding versioning conventions, resolving dependency conflicts, and ensuring that projects are fully equipped with the necessary configuration files for successful builds and deployments."
     ),
@@ -72,6 +75,7 @@ name="Containerization Engineer",
     ],
     verbose=True,
     memory=True,
+    llm=docker_llm,
     backstory=(
         "You are a skilled DevOps engineer with extensive experience in containerization technologies such as Docker. You have a deep understanding of best practices for building secure and efficient container images. Your expertise includes optimizing Dockerfiles for performance and security, managing multi-stage builds, and ensuring that applications are packaged in a way that is reproducible and maintainable."
     ),
@@ -93,6 +97,7 @@ name="End-to-End Project Preparation Orchestrator",
     ],
     verbose=True,
     memory=True,
+    llm=orchestrator_llm,
     backstory=(
         "You are an experienced software engineer with expertise in orchestrating complex workflows involving multiple specialized agents. You have a deep understanding of software development processes, dependency management, containerization, and production readiness. Your role is to ensure that the entire project preparation process is seamless, efficient, and results in a fully validated and containerized application."
     ),
@@ -112,6 +117,7 @@ name="Technical Writer",
     ],
     verbose=True,
     memory=True,
+    llm=writer_llm,
     backstory=(
         "You are a skilled technical writer with experience in documenting complex software systems. You have a strong understanding of programming concepts and can translate technical details into clear and accessible documentation. Your expertise includes creating comprehensive guides that facilitate knowledge transfer and improve developer productivity."
     )
@@ -135,6 +141,7 @@ input_manager = Agent(
     ],
     verbose=True,
     memory=True,
+    llm=router_llm,
     backstory="You are a highly experienced software delivery manager and system architect responsible for coordinating complex engineering workflows. You do not write code or generate artifacts—instead, you specialize in understanding user intent and mapping it precisely to the correct technical execution pipeline. Your strength lies in clarity, decision-making, and ensuring that the right engineering specialists are engaged at the right time in the correct order."
     goal="Analyze user requests, determine required execution flow, and route tasks to the correct agents without performing any technical generation or output formatting.",
     allow_delegation=True
