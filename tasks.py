@@ -144,7 +144,8 @@ containerization_engineer_task = Task(
     - Runtime notes
 """,
     agent=containerization_engineer,
-    tools=[directory_search_tool, directory_read_tool, file_read_tool, file_writer]
+    tools=[directory_search_tool, directory_read_tool, file_read_tool, file_writer],
+    output_file='Dockerfile'
 )
 
 end_to_end_orchestrator_task = Task(
