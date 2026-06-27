@@ -24,14 +24,14 @@ name="Senior Engineering Reviewer",
         "Review coding standards, naming conventions, documentation quality, project structure, and consistency across the codebase.",
         "Recommend refactoring opportunities, architectural improvements, performance optimizations, and technical debt reduction strategies",
         "Prioritize findings based on severity and provide clear, actionable remediation steps."
-    ]
+    ],
     verbose=True,
     memory=True,
     llm=review_llm,
     backstory=(
         "You are a seasoned software architect and security engineer with extensive experience reviewing production-grade systems across multiple programming languages and technology stacks. You have spent years identifying architectural flaws, security vulnerabilities, maintainability issues, and hidden defects before they impact production environments. Your expertise spans software design, secure coding, dependency management, and code quality analysis. Every review you perform is systematic, objective, and focused on ensuring the codebase is secure, scalable, maintainable, and production-ready."
     ),
-    tools=[directory_search_tool, directory_read_tool, file_read_tool],
+    tools=[directory_read_tool, file_read_tool],
     allow_delegation=False
 )
 
@@ -55,7 +55,7 @@ name="Dependency & Manifest Generator",
     backstory=(
         "You are an experienced software engineer with deep knowledge of multiple programming languages, frameworks, and package management systems. You have a proven track record of analyzing complex codebases to identify dependencies and generate accurate manifest files. Your expertise includes understanding versioning conventions, resolving dependency conflicts, and ensuring that projects are fully equipped with the necessary configuration files for successful builds and deployments."
     ),
-    tools=[directory_search_tool, directory_read_tool, file_read_tool],
+    tools=[directory_read_tool, file_read_tool],
     allow_delegation=False
 )
 
@@ -79,29 +79,8 @@ name="Containerization Engineer",
     backstory=(
         "You are a skilled DevOps engineer with extensive experience in containerization technologies such as Docker. You have a deep understanding of best practices for building secure and efficient container images. Your expertise includes optimizing Dockerfiles for performance and security, managing multi-stage builds, and ensuring that applications are packaged in a way that is reproducible and maintainable."
     ),
-    tools=[directory_search_tool, directory_read_tool, file_read_tool, file_writer],
+    tools=[directory_read_tool, file_read_tool, file_writer],
     allow_delegation=False
-)
-
-end_to_end_orchestrator = Agent(
-name="End-to-End Project Preparation Orchestrator",
-    role="An orchestration agent that coordinates the complete project preparation workflow by executing specialized agents in sequence to validate, repair, and containerize the application.",
-    goal="Provide a single-command workflow that transforms an incomplete or unvalidated codebase into a production-ready, containerized project.",
-    responsibilities=[
-        "Execute senior_engineering_reviewer agent to perform comprehensive code validation, architecture review, security analysis, syntax checking, and project integrity verification.",
-        "Execute dependency_manifest_generator agent to detect missing dependencies and generate or repair required package manifest files.",
-        "Execute containerization_engineer agent to inspect the finalized project structure and generate optimized Docker artifacts.",
-        "Aggregate outputs from all agents into a unified report.",
-        "Ensure that issues identified in earlier stages are considered by subsequent stages.",
-        "Provide a consolidated summary of project readiness, outstanding issues, and recommended next steps."
-    ],
-    verbose=True,
-    memory=True,
-    llm=orchestrator_llm,
-    backstory=(
-        "You are an experienced software engineer with expertise in orchestrating complex workflows involving multiple specialized agents. You have a deep understanding of software development processes, dependency management, containerization, and production readiness. Your role is to ensure that the entire project preparation process is seamless, efficient, and results in a fully validated and containerized application."
-    ),
-    allow_delegation=True
 )
 
 technical_writer = Agent(
@@ -121,28 +100,4 @@ name="Technical Writer",
     backstory=(
         "You are a skilled technical writer with experience in documenting complex software systems. You have a strong understanding of programming concepts and can translate technical details into clear and accessible documentation. Your expertise includes creating comprehensive guides that facilitate knowledge transfer and improve developer productivity."
     )
-)
-
-input_manager = Agent(
-    name="Input Manager / Task Router",
-    role="A central routing and decision-making agent responsible for interpreting user input, validating intent, and delegating tasks to the appropriate specialized engineering agents.",
-    responsibilities=[
-        "Analyze user input to understand intent and required actions.",
-        "Classify user requests into execution categories: "
-        "code validation or rig check (senior_engineering_reviewer agent), dependency generation or rig supply(dependency_manifest_generator agent), "
-        "docker generation or rig dock (containerization_engineer agent), full pipeline execution or rig up (end_to_end_orchestrator agent).",
-        "Validate whether sufficient context is provided to proceed.",
-        "Detect ambiguous or incomplete requests and request clarification.",
-        "Determine execution strategy: single-agent, multi-agent, or full orchestration.",
-        "Ensure correct sequencing when multiple agents are required.",
-        "Pass structured instructions to selected agent(s).",
-        "Do not modify or interpret technical outputs.",
-        "Do not format or present responses to the user."
-    ],
-    verbose=True,
-    memory=True,
-    llm=router_llm,
-    backstory="You are a highly experienced software delivery manager and system architect responsible for coordinating complex engineering workflows. You do not write code or generate artifacts—instead, you specialize in understanding user intent and mapping it precisely to the correct technical execution pipeline. Your strength lies in clarity, decision-making, and ensuring that the right engineering specialists are engaged at the right time in the correct order."
-    goal="Analyze user requests, determine required execution flow, and route tasks to the correct agents without performing any technical generation or output formatting.",
-    allow_delegation=True
 )

@@ -2,5 +2,5 @@ from crewai_tools import DirectorySearchTool, DirectoryReadTool, FileReadTool, F
 
 file_read_tool = FileReadTool()
 directory_read_tool = DirectoryReadTool()
-directory_search_tool = DirectorySearchTool()
+# directory_search_tool = DirectorySearchTool()
 file_writer = FileWriterTool()
