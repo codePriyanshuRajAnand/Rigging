@@ -21,5 +21,9 @@ crew = Crew(
     ],
     process=Process.hierarchical,
     manager_agent=input_manager,
-    verbose=True
+    verbose=True,
+    cache=True,
+    max_rpm=100,
+    memory=True,
+    share_crew=True
 )
