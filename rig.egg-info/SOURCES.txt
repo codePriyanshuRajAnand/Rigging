@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+rig/__init__.py
+rig/agents.py
+rig/cli.py
+rig/crews.py
+rig/llm.py
+rig/router.py
+rig/tasks.py
+rig/tools.py
+rig/worklfows.py
+rig.egg-info/PKG-INFO
+rig.egg-info/SOURCES.txt
+rig.egg-info/dependency_links.txt
+rig.egg-info/entry_points.txt
+rig.egg-info/requires.txt
+rig.egg-info/top_level.txt

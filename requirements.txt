@@ -1,0 +1,5 @@
+crewai==1.15.1
+crewai-tools==1.15.1
+typer==0.25.1
+pydantic==2.12.5
+litellm==1.90.0
