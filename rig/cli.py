@@ -1,6 +1,13 @@
 import typer
 from rig import worklfows
-import os
+import os, json
+
+
+def safe_json(data):
+    try:
+        return json.loads(data)
+    except Exception:
+        return {"raw": str(data)}
 
 def docker_steps(path, result):
     docker_file = os.path.join(path, 'Dockerfile')
@@ -13,7 +20,7 @@ def docker_steps(path, result):
     print(f"Docker ignore created at: {docker_ignore}")
     print(f"Base image: {result['base_image']}")
     print(f"Entry point: {result['entrypoint']}")
-    print(f"Exposed Port: {result['exposed_ports']}")
+    print(f"Exposed ports: {result.get('ports', [])}")
 
 app = typer.Typer()
 
@@ -24,22 +31,32 @@ def scan(path: str):
 
 @app.command()
 def supply(path: str):
-    result = worklfows.workflows('supply', path)
+    review = worklfows.workflows('scan', path)
+    review_context = safe_json(review.raw)
+    result = worklfows.workflows('supply', path, review_context=review_context)
     print(result)
 
 @app.command()
 def dock(path: str):
-    result = worklfows.workflows('dock', path)
-    docker_steps(path, result)
-    print(f"result['notes]")
+    review = worklfows.workflows('scan', path)
+    review_context = safe_json(review.raw)
+    supply = worklfows.workflows('supply', path, review_context=review_context)
+    dependency_context = safe_json(supply.raw)
+    result = worklfows.workflows('dock', path, review_context=review_context, dependency_context=dependency_context)
+    parsed = safe_json(result.raw)
+    docker_steps(path, parsed)
+    print(parsed.get("notes", []))
 
 @app.command()
 def full(path: str):
     review = worklfows.workflows('scan', path)
-    supply = worklfows.workflows('supply', path, review_context=review)
-    dock = worklfows.workflows('dock', path, review_context=[review, supply])
-    docker_steps(path, dock)
-    result = worklfows.workflows('write', path, review_context=[review, supply, dock])
+    review_context = safe_json(review.raw)
+    supply = worklfows.workflows('supply', path, review_context=review_context)
+    dependency_context = safe_json(supply.raw)
+    dock = worklfows.workflows('dock', path, review_context=review_context, dependency_context=dependency_context)
+    docker_steps(path, safe_json(dock.raw))
+    docker_context = safe_json(dock.raw)
+    result = worklfows.workflows('full', path, review_context=review_context, dependency_context=dependency_context, docker_context=docker_context)
     print(result)
 
 if __name__ == "__main__":

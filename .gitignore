@@ -1,0 +1,41 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Environment variables — never commit secrets
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test files (temporary debug scripts)
+rig/test.py
+rig/test2.py
+rig/test3.py
+
+# Logs
+*.log
+
+# MyPy / Ruff / Pytest cache
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/

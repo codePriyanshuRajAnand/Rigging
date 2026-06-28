@@ -8,21 +8,24 @@ code_review_crew = Crew(
     tasks=[senior_engineering_reviewer_task],
     process=Process.sequential,
     memory=False,
-    cache=False
+    cache=False,
+    verbose=True
 )
 dependency_crew = Crew(
     agents=[dependency_manifest_generator],
     tasks=[dependency_manifest_generator_task],
     process=Process.sequential,
     memory=False,
-    cache=False
+    cache=False,
+    verbose=True
 )
 dock_crew = Crew(
     agents=[containerization_engineer],
     tasks=[containerization_engineer_task],
     process=Process.sequential,
     memory=False,
-    cache=False
+    cache=False,
+    verbose=True
 )
 
 writer_crew = Crew(
@@ -30,5 +33,6 @@ writer_crew = Crew(
     tasks=[technical_writer_task],
     process=Process.sequential,
     memory=False,
-    cache=False
+    cache=False,
+    verbose=True
 )
