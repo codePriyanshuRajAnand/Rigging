@@ -1,7 +1,0 @@
-Metadata-Version: 2.4
-Name: rig
-Version: 0.1.0
-Summary: Agentic CLI tool for codebase analysis
-Requires-Python: >=3.9
-Requires-Dist: crewai
-Requires-Dist: typer
