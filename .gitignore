@@ -23,6 +23,8 @@ build/
 .idea/
 *.iml
 
+rig.egg-info/*
+
 # OS
 .DS_Store
 Thumbs.db

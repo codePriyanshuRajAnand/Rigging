@@ -10,8 +10,23 @@ def safe_json(data):
         return {"raw": str(data)}
 
 def docker_steps(path, result):
-    docker_file = os.path.join(path, 'Dockerfile')
-    docker_ignore = os.path.join(path, '.dockerignore')
+    docker_file = "Dockerfile"
+    docker_ignore = ".dockerignore"
+    
+    # Bugfix: If the path is a file, get its directory
+    
+    if os.isfile(path):
+        path = os.path.dirname(path)
+    
+    # Bugfix: Check if Dockerfile or .dockerignore already exists in the path
+    
+    if os.path.join(path, 'Dockerfile') or os.path.join(path, '.dockerignore'):
+        print("Dockerfile or .dockerignore already exists. Creating as Dockerfile.new and .dockerignore.new")
+        docker_file = "Dockerfile.new"
+        docker_ignore = ".dockerignore.new"
+        
+    docker_file = os.path.join(path, docker_file)
+    docker_ignore = os.path.join(path, docker_ignore)
     with open(docker_file, 'w') as f:
         f.write(result["dockerfile"])
     with open(docker_ignore, 'w') as f:
