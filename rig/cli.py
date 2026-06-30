@@ -15,12 +15,12 @@ def docker_steps(path, result):
     
     # Bugfix: If the path is a file, get its directory
     
-    if os.isfile(path):
+    if os.path.isfile(path):
         path = os.path.dirname(path)
     
     # Bugfix: Check if Dockerfile or .dockerignore already exists in the path
     
-    if os.path.join(path, 'Dockerfile') or os.path.join(path, '.dockerignore'):
+    if os.path.exists(os.path.join(path, 'Dockerfile')) or os.path.exists(os.path.join(path, '.dockerignore')):
         print("Dockerfile or .dockerignore already exists. Creating as Dockerfile.new and .dockerignore.new")
         docker_file = "Dockerfile.new"
         docker_ignore = ".dockerignore.new"
